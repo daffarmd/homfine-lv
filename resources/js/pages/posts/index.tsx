@@ -10,7 +10,7 @@ interface Post {
 
 interface PageProps {
     posts: Post[];
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export default function Index(){

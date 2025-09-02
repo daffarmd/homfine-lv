@@ -10,7 +10,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
-import { Eye, EyeOff, LoaderCircle, Lock } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 
 interface LoginProps {
@@ -19,7 +19,7 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
-    const [showPassword, setShowPassword] = useState(false);
+    useState(false);
 
     return (
         <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#1F6B4A] via-[#F8F0E0] to-[#1F6B4A]">
