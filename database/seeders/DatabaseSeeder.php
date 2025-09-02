@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Budgets;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,5 +20,26 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $categories = [
+            [
+                'name' => 'Category 1',
+                'description' => 'Description for Category 1',
+            ],
+            [
+                'name' => 'Category 2',
+                'description' => 'Description for Category 2',
+            ],
+            [
+                'name' => 'Category 3',
+                'description' => 'Description for Category 3',
+            ],
+        ];
+
+        foreach ($categories as $category) {
+            \App\Models\Category::create($category);
+        }
+
+        Budgets::factory(5)->create();
     }
 }
