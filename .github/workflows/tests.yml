@@ -1,28 +1,24 @@
-name: tests
+name: Laravel CI
 
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - develop
-      - main
+    branches: [ "main" ]
 
 jobs:
-  ci:
+  laravel-tests:
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:15
         ports:
           - 5432:5432
         env:
+          POSTGRES_DB: homfine-laravel-dev
           POSTGRES_USER: devaja
           POSTGRES_PASSWORD: 1q2w3e4r
-          POSTGRES_DB: homfine-laravel-dev
         options: >-
           --health-cmd="pg_isready -U devaja -d homfine-laravel-dev"
           --health-interval=10s
@@ -30,48 +26,46 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
-          tools: composer:v2
-          coverage: xdebug
+          php-version: '8.2'
+          extensions: mbstring, pdo_pgsql, intl, bcmath
+          coverage: none
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-interaction --prefer-dist
 
-      - name: Install Node Dependencies
-        run: npm ci
-
-      - name: Install PHP Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Build Assets
-        run: npm run build
-
-      - name: Copy Environment File
+      - name: Copy .env
         run: cp .env.example .env
 
       - name: Configure DB in .env
         run: |
           sed -i 's/DB_CONNECTION=.*/DB_CONNECTION=pgsql/' .env
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=postgres/' .env
           sed -i 's/DB_PORT=.*/DB_PORT=5432/' .env
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=homfine-laravel-dev/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=devaja/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=1q2w3e4r/' .env
 
-      - name: Generate Application Key
+      - name: Generate app key
         run: php artisan key:generate
 
-      - name: Run Migrations
-        run: php artisan migrate --no-interaction --force
+      - name: Clear config cache
+        run: php artisan config:clear
 
-      - name: Run Tests
-        run: ./vendor/bin/pest
+      - name: Wait for Postgres
+        run: |
+          until pg_isready -h postgres -p 5432 -U devaja; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Run tests
+        run: php artisan test
