@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Eye, EyeOff, LoaderCircle, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { useState } from 'react';
 
 
@@ -24,7 +24,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   )
 }
 
-function InputPassword({ className, type, ...props }: React.ComponentProps<"input">) {
+function InputPassword({ className, ...props }: React.ComponentProps<"input">) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

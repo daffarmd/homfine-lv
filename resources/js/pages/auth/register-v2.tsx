@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { CheckCircle, Eye, EyeOff, Lock, Mail, Phone, User } from 'lucide-react';
+import { CheckCircle, Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
 
 export default function RegisterPage() {
