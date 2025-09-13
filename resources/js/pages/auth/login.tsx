@@ -11,7 +11,6 @@ import { register } from '@/routes';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { useState } from 'react';
 
 interface LoginProps {
     status?: string;
@@ -19,8 +18,6 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
-    useState(false);
-
     return (
         <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#1F6B4A] via-[#F8F0E0] to-[#1F6B4A]">
             {/* Decorative blurred circles */}
@@ -47,6 +44,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                             tabIndex={1}
                                             autoComplete="email"
                                             placeholder="email@example.com"
+                                            icon="mail"
                                         />
                                         <InputError message={errors.email} />
                                     </div>
@@ -77,7 +75,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                                     <Button
                                         type="submit"
-                                        className="hover:from-homfine-green/90 focus:ring-homfine-green flex w-full transform items-center justify-center gap-2 rounded-xl bg-[#1F6B4A] py-3 font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-[#1F6B4B] hover:shadow-xl focus:ring-2 focus:outline-none disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50"
+                                        className="flex w-full transform items-center justify-center gap-2 rounded-xl bg-[#1F6B4A] py-3 font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-[#1F6B4B] hover:from-homfine-green/90 hover:shadow-xl focus:ring-2 focus:ring-homfine-green focus:outline-none disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50"
                                         tabIndex={4}
                                         disabled={processing}
                                     >
