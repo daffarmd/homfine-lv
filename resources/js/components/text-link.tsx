@@ -8,7 +8,7 @@ export default function TextLink({ className = '', children, ...props }: LinkPro
     return (
         <Link
             className={cn(
-                'text-green-700 text-xs underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500',
+                'text-xs text-green-700 underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500',
                 className,
             )}
             {...props}
